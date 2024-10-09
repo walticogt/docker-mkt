@@ -1,0 +1,40 @@
+services:
+  routeros:
+    #Licencia: Free (Velocidad de tráfico limitada a 1 Mbps por interfaz de red).
+    #Podrias adquirir la licencia P1 para Mikrotik Cloud Hosted Router (CHR): $45 desde su web
+
+    image: vaerhme/routeros:latest # v7.16 (Oct 2024)
+    container_name: mikrotik
+    privileged: true
+    restart: unless-stopped
+    # Router OS - Mikrotik con 8 interfaces
+    entrypoint: /routeros/entrypoint_for_docker_8interfaces.sh
+    # Router OS - Mikrotik con 4 interfaces
+    # entrypoint: /routeros/entrypoint_with_four_interfaces.sh
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    ports:
+      # App Winbox: winbox64-3.41 / winbox4.0beta9
+      - "8291:8291"
+      # SSH
+      - "2222:22"
+      # Telnet
+      - "2223:23"
+      # HTTP desde tu navegador
+      - "8070:80"
+      # API MKT
+      - "8728:8728"
+      # API SSL
+      - "8729:8729"
+      # Dude
+      - "20561:20561" 
+      # SNMP
+      - "161:161"
+      # OpenVPN
+      - "1194:1194"
+      # IPSec
+      - "500:500"
+      # L2TP
+      - "1701:1701"
